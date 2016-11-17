@@ -48,15 +48,15 @@
 	<div class="main_right">
 		<div class="lbtable1 lbtable1_tan" >
 			<div class="biaoti_title biaoti_title_tan">
-				<span><spring:message code="SET_ROLE_OPT"></spring:message></span>
+				<span><spring:message code="SET_ROLE_OPT_LAB"></spring:message></span>
 			</div>
 			<div class="lbtable1_content lbtable1_content_tan">
 				<ul class="ul_form_col3">
-					<li><span class="span_form_label"><font class="xh">*</font><spring:message code="ACCOUNT_LAB"></spring:message>：</span>
+					<li><span class="span_form_label"><font class="xh">*</font><spring:message code="USER_EMPLOYEE_NUM_LAB"></spring:message>：</span>
 						<div class="div_form_content">
 							<span class="div_form_content_span" >${sysUser.employeeNum}</span>
 						</div></li>
-					<li><span class="span_form_label"><font class="xh">*</font><spring:message code="NAME_LAB"></spring:message>：</span>
+					<li><span class="span_form_label"><font class="xh">*</font><spring:message code="USER_EMPLOYEE_NAME_LAB"></spring:message>：</span>
 						<div class="div_form_content">
 							<span class="div_form_content_span" >${sysUser.employeeName}</span>
 						</div>

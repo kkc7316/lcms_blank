@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+.erro_bg{
+	width: 100%;
+	height: 200px;
+	line-height: 300px;
+	margin-top: 200px;
+	text-align: center;
+	background: url(../image/erro_bg.png) no-repeat 50%;
+}
+.erro_bg span{
+	color: #a2a3a8;
+	font-weight: bold;
+	font-size: 22px;
+	margin-left: 15px;
+}
+

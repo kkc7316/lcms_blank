@@ -18,10 +18,10 @@
     <div class="logo"></div>
     <span class="title"><spring:message code="SYSTEM_NAME"></spring:message></span>
     <div class="message">
-         <span style="background:none;"><img src="image/touxiang.png"/><font style="margin-left:10px;"><spring:message code="WELCOME"></spring:message>，夏冬青</font></span>
-        <span><img src="image/ico1.png"/></span>
-        <span><img src="image/ico2.png"/></span>
-        <span><img src="image/ico3.png"/></span> 
+<%--        <span style="background:none;"><img src="image/touxiang.png"/><font style="margin-left:10px;"><spring:message code="WELCOME"></spring:message>，夏冬青</font></span>--%>
+<%--        <span><img src="image/ico1.png"/></span>--%>
+<%--        <span><img src="image/ico2.png"/></span>--%>
+<%--        <span><img src="image/ico3.png"/></span> --%>
         <span style="padding-right: 25px;cursor: default;"><spring:message code="WELCOME"/>,${currentUser.employeeNum } ${currentUser.employeeName } &nbsp; <spring:message code="LOGIN_TIME"/>:${loginTime}</span>
     </div>
     <div style="height: 0px;">

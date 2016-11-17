@@ -12,7 +12,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.StandardBasicTypes;
@@ -41,8 +40,24 @@ import com.svw.lcms.framework.web.page.PageInfo;
  */
 @Repository("userDao")
 public class UserDaoImpl extends BaseDaoImpl<SysUser, Serializable> implements IUserDao , ISysConstants{
-    /** 日志 **/
-    private static Logger logger = Logger.getLogger(UserDaoImpl.class);
+
+    
+    /**
+     * setParamter方法--全部模糊查询
+     */
+    @Override
+    protected boolean isAllLikeQuery() {
+        return true;
+    }
+//    /**
+//     * 
+//     * <p>Description: 用户列表--模糊查询</p>
+//     * @return Stri ngArray
+//     */
+//    @Override
+//    protected String[] getLikeQueryArray() {
+//        return new String[]{"employeeNum","employeeName","svwCode","userRoleName"};
+//    }
 
     /**
      * 
@@ -84,8 +99,11 @@ public class UserDaoImpl extends BaseDaoImpl<SysUser, Serializable> implements I
                 + buider.toString() 
                 + " order by s.updateDate desc, s.createDate desc, s.id desc";
         
-        return findEntityPageListByHql(countHql, queryHql, params, pageInfo);
+        return this.findEntityPageListByHql(countHql, queryHql, params, pageInfo);
     }
+
+
+
 
 
     /**

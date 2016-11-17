@@ -8,6 +8,7 @@ package com.svw.lcms.framework.dao.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -378,7 +379,7 @@ public class BaseDaoImpl<T, PK extends Serializable> extends SessionSupport impl
        
         Query query = null;
         query = this.getHqlQuery(queryHql, params);
-        query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        //query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         if (null != pageInfo) {
             query.setFirstResult(pageInfo.start);
             query.setMaxResults(pageInfo.limit);
@@ -502,21 +503,38 @@ public class BaseDaoImpl<T, PK extends Serializable> extends SessionSupport impl
      * @param query
      * @param params
      */
-    private void setParamsWithMap(Query query, Map<String, Object> params){
+    protected void setParamsWithMap(Query query, Map<String, Object> params){
         if(params != null && !params.isEmpty()){
+            //哪些需要模糊查询的
+            List<String> likeGroup;
+            likeGroup = getLikeQueryList();
+            
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 
                 String key;
                 key = entry.getKey();
                 Object obj = null;
                 obj = entry.getValue();
-                if (obj != null) {
+                
+                if (obj != null && StringUtils.isNotBlank(obj.toString())) {
                     if (obj instanceof Collection<?>) {
                         query.setParameterList(key, (Collection<?>) obj);
                     } else if (obj instanceof Object[]) {
                         query.setParameterList(key, (Object[]) obj);
                     } else {
-                        query.setParameter(key, obj);
+                        //所有查询均为模糊查询
+                        if(isAllLikeQuery()) {
+                            query.setParameter(key, LIKES + obj + LIKES);
+                        }
+                        else {
+                            
+                            if (null != likeGroup && likeGroup.contains(key)) {
+                                query.setParameter(key, LIKES + obj + LIKES);
+                            } else {
+                                query.setParameter(key, obj);
+                            }
+                        }
+                        
                     }
                 }
                
@@ -524,6 +542,36 @@ public class BaseDaoImpl<T, PK extends Serializable> extends SessionSupport impl
         }
     }
 
+    /**
+     * 
+     * <p>Description: 是否全部模糊查询</p>
+     * @return false 默认精准查询
+     */
+    protected boolean isAllLikeQuery() {
+        return false;
+    }
     
+    
+    /**
+     * <p>Description: 获得模糊查询list</p>
+     * @return list
+     */
+    private List<String> getLikeQueryList() {
+        String[] likeGroupArray;
+        likeGroupArray = this.getLikeQueryArray();
+        
+        if (null != likeGroupArray && likeGroupArray.length > 0) {
+            return Arrays.asList(likeGroupArray);
+        }
+        return null;
+    }
+    /**
+     * 
+     * <p>Description: 模糊查询</p>
+     * @return StringArray
+     */
+    protected String[] getLikeQueryArray() {
+        return null;
+    }
     
 }

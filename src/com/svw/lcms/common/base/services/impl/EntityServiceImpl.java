@@ -15,6 +15,7 @@ import com.svw.lcms.framework.domain.BaseModel;
 import com.svw.lcms.framework.services.impl.BaseServiceImpl;
 import com.svw.lcms.framework.web.exception.BusinessException;
 import com.svw.lcms.framework.web.page.PageInfo;
+import com.svw.lcms.utils.StrUtil;
 
 /**
  * <p>ClassName: EntityServiceImpl</p>
@@ -355,16 +356,32 @@ public class EntityServiceImpl<T extends BaseModel> extends BaseServiceImpl impl
      */
     @SuppressWarnings("unchecked")
     protected Class<T> getModelClass() {
+        
+        String servicePath;
+        servicePath = this.getClass().getName();
+        
+        String[] token;
+        token = servicePath.split("\\.");
+        
+        if (token.length <4) {
+            throw new BusinessException("illegal serviceImpl class package:" + servicePath);
+        }
+        String endString;
+        endString = token[token.length-3] + "." + token[token.length-2] + "." + token[token.length-1];
+        
+        String domainPath;
+        domainPath = StrUtil.removeByEndStr(servicePath, endString) 
+                + "domain" + "." 
+                + this.getDomainName();
+        
         Class<T> modelClass = null;
         try {
-            modelClass = (Class<T>) Class.forName(this.getDomainName());
+            modelClass = (Class<T>) Class.forName(domainPath);
         } catch (ClassNotFoundException e) {
-            throw new BusinessException("Class[" + this.getDomainName() + "] not found Exception!");
+            throw new BusinessException("Class[" + domainPath + "] not found!");
         }
-        
         return modelClass;
     }
-    
     
     /**
      * 获得domain name，如果Service的实现类的命名是Domain+ServiceImpl的方式，子类就不用重写该方法
@@ -386,5 +403,6 @@ public class EntityServiceImpl<T extends BaseModel> extends BaseServiceImpl impl
         }
         return null;
     }
+    
     
 }

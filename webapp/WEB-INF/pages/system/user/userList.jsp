@@ -2,18 +2,27 @@
 <%@ include file="../../common/taglibs.jsp"%>
 <html>
 <head>
-	<base href="<%=basePath%>"></base>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
-	<link type="text/css" rel="stylesheet" href="css/style.css" />
-	<link type="text/css" rel="stylesheet" href="css/global.css" />
-	<link type="text/css" rel="stylesheet" href="css/layout.css" />
-	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-	<script language="javascript" type="text/javascript" src="js/jquery-ui-1.9.2.custom.min.js"></script>
-	<script type="text/javascript" src="js/selectyze/selectyze.jquery.min.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-	<script type="text/javascript" src="js/validity/jquery.validity.js"></script>
-    <link rel="stylesheet" href="css/jquery.validity.css" type="text/css"></link>
+<base href="<%=basePath%>"></base>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+
+<link rel="icon" href="image/favicon.ico">
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+<link type="text/css" rel="stylesheet" href="css/global.css" />
+<link type="text/css" rel="stylesheet" href="css/layout.css" />
+<link rel="stylesheet" href="selectyze/selectyze.jquery.css" type="text/css" />
+<script language="javascript" type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="selectyze/selectyze.jquery.min.js"></script>
+<script type="text/javascript" src="js/other/laydate-master/laydate.js"></script>
+
+<link rel="stylesheet" href="css/jquery.validity.css" type="text/css"></link>
+<script type="text/javascript" src="js/other/autoMultiple/autoMultiple.js"></script> 
+<script type="text/javascript" src="js/ext-all.js"></script>
+<script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/jquery.blockUI.js"></script>
+<link rel="stylesheet" type="text/css" href="css/resources/ext-theme-classic/ext-theme-classic-all.css" />
+<link rel="stylesheet" type="text/css" href="css/resources/ext-theme-classic/all2.css" />
 <script>
 //主动释放 5秒一次
 setInterval(function() {
@@ -81,17 +90,18 @@ $(function(){
 <body>
     <div class="main_right">
     	 <div class="lbtable1">   
-         	<div class="biaoti_title"><span><spring:message code="USER_MANAGE_TITLE"></spring:message></span><span style="float: right; margin-right: 10px;">${synchronousTime}</span></div>   
+         	<div class="biaoti_title"><span><spring:message code="USER_MANAGE"></spring:message></span></div>   
          	<shiro:hasPermission name="USER_QUERY">
          	<div class="box_btn_seach">
                      <button  class="button2" type="button" id="userList_button2"><spring:message code="QUERY_OPT"></spring:message></button> 
                      <!-- <button  class="button2" type="reset"><img src="image/icon_reset_16_16.png">重置</button>  -->
-            	  </div>  
+           	</div>  
            	</shiro:hasPermission> 
+           	<br/>
             <div class="condition">
 	         	<div class="condition_content">
 	         	  <a class="condition_content_font" id="employeeNum_query" style="display:none;position: relative;">
-	                <span class="condition_content_font_span"><spring:message code="ACCOUNT_LAB"></spring:message>：<font id="employeeNum_value"></font><font class="font2">X</font></span> 
+	                <span class="condition_content_font_span"><spring:message code="USER_EMPLOYEE_NUM_LAB"></spring:message>：<font id="employeeNum_value"></font><font class="font2">X</font></span> 
 	            	<div class="seach_xunfu" id="div.employeeNum">
 	                    <div class="error"></div>
 	                </div>
@@ -103,7 +113,7 @@ $(function(){
 	                </div>
 	              </a>
 	              <a class="condition_content_font" id="employeeName_query" style="display:none;position: relative;">
-	                <span class="condition_content_font_span"><spring:message code="NAME_LAB"></spring:message>：<font id="employeeName_value"></font><font class="font2">X</font></span> 
+	                <span class="condition_content_font_span"><spring:message code="USER_EMPLOYEE_NAME_LAB"></spring:message>：<font id="employeeName_value"></font><font class="font2">X</font></span> 
 	            	<div class="seach_xunfu" id="div.employeeName">
 	                    <div class="error"></div>
 	                </div>
@@ -120,7 +130,7 @@ $(function(){
          	<div class="lbtable1_content">
                 <ul class="ul_form_col3"> 
                    <li>
-                        <span class="span_form_label"><spring:message code="ACCOUNT_LAB"></spring:message>：</span>
+                        <span class="span_form_label"><spring:message code="USER_EMPLOYEE_NUM_LAB"></spring:message>：</span>
                         <div class="div_form_content">
 	                        <input class="file_fixed_150px" id="filter.employeeNum" onblur="makeQuery('employeeNum',this.value,this.value)"/>
                         </div>
@@ -130,7 +140,7 @@ $(function(){
                         <div class="div_form_content"><input class="file_fixed_150px" id="filter.svwCode" onblur="makeQuery('svwCode',this.value,this.value)"/></div>
                    </li>                  
                     <li>
-                        <span class="span_form_label"><spring:message code="NAME_LAB"></spring:message>：</span>
+                        <span class="span_form_label"><spring:message code="USER_EMPLOYEE_NAME_LAB"></spring:message>：</span>
                         <div class="div_form_content"><input class="file_fixed_150px no_upper_case" id="filter.employeeName" onblur="makeQuery('employeeName',this.value,this.value)"/></div>
                    </li>
                     <li>
@@ -249,7 +259,7 @@ var containerLoginUserFlag = false;
      items : [
      			<shiro:hasPermission name="USER_ROLE">
 				{  
-					text : '<font color="silver"><spring:message code="SET_ROLE_OPT"></spring:message></font>',
+					text : '<font color="silver"><spring:message code="SET_ROLE_OPT_LAB"></spring:message></font>',
 					cls:'button4_disable',
 					id:'userList_setRoleBtn'
 				 }, 
@@ -328,13 +338,13 @@ var containerLoginUserFlag = false;
 		        columns: [
 							{
 								id:'company',
-								header: "<spring:message code="ACCOUNT_LAB"></spring:message>",  
+								header: "<spring:message code="USER_EMPLOYEE_NUM_LAB"></spring:message>",  
 								sortable: true ,
 								dataIndex: 'employeeNum',
 								align: 'center'
 							 },
 				            {
-					            header: "<spring:message code="NAME_LAB"></spring:message>", 
+					            header: "<spring:message code="SUPPLIER_SAP_NUM_LAB"></spring:message>", 
 					            sortable: true , 
 					            dataIndex: 'employeeName',
 					            align: 'center'
@@ -362,7 +372,7 @@ var containerLoginUserFlag = false;
 		                       }
 				            },
 				             {
-					            header: "<spring:message code="SYNC_TIME_OPT"></spring:message>", 
+					            header: "操作时间", 
 					            sortable: true, 
 					            dataIndex: 'updateStringDate',
 					             align: 'center'
