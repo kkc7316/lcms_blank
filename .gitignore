@@ -1,2 +1,8 @@
+.gitignore
 /build
 *.jar
+*.class
+*.zip
+*.war
+*.ear
+
