@@ -1,0 +1,24 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2015-08-24 15:22:35
+ * @version $Id$
+ */
+@charset "utf-8";
+*{padding:0; margin:0;}
+html{ _overflow-x:hidden;scrollbar-highlight-color :#fff;scrollbar-face-color:#fefefe;  scrollbar-darkshadow-color:#fff;scrollbar-3dlight-color:#dedede; scrollbar-base-color :#fff; scrollbar-arrow-color :#3692dc; height:100%;}
+body{background:rgb(242,239,239); font:12px/1 Tahoma, Arial, Helvetica, sans-serif,"\5FAE\8F6F\96C5\9ED1",serifl;color:#333;min-height: 100%;_height:100%;position:relative;}
+button{cursor:pointer; border:none;outline:none}
+
+ul{margin:0; padding:0; list-style:none;}
+.float_L{float:left;}
+.float_R{float:right;}
+
+
+/*input*/
+.file_fixed_310px{width:310px;border:none;font-size:18px;}
+
+/*btn*/
+.btn_login{width:150px;height:35px;line-height:35px;background:rgb(55,103,138);color:rgb(255,255,255);font-size:18px;border-radius:4px;behavior:url(css/PIE.htc);text-align:center;position:relative;}
+.btn_register{width:150px;height:35px;line-height:35px;background:rgb(222,110,104);color:rgb(255,255,255);font-size:18px;border-radius:4px;behavior:url(css/PIE.htc);text-align:center;position:relative;}

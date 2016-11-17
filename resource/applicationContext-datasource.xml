@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+	default-lazy-init="true">
+	
+	<description>Spring 数据源配置 </description>
+	<!-- JNDI  
+	 <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="resourceRef" value="true"/>
+        <property name="jndiName"><value>jdbc/lcms</value></property>
+    </bean> 
+   -->
+    <!-- JDBC -->
+	  <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
+		<property name="dataSourceName" value="ORCL" />
+		<property name="URL" value="jdbc:oracle:thin:@localhost:1521:ORCL" /> 
+		<property name="user" value="LCMS" />
+		<property name="password" value="LCMS" />
+	</bean> 
+	 
+</beans>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+      http://www.springframework.org/schema/beans/spring-beans-3.2.xsd  
+      http://www.springframework.org/schema/context  
+      http://www.springframework.org/schema/context/spring-context.xsd  
+      http://www.springframework.org/schema/mvc  
+      http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+      
+	<context:component-scan base-package="com.svw.lcms.framework.controller" />
+	<context:component-scan base-package="com.svw.lcms.common.base.controller" />
+	<context:component-scan base-package="com.svw.lcms.common.user.controller" />
+ 	<context:component-scan base-package="com.svw.lcms.common.role.controller" />
+ 	<context:component-scan base-package="com.svw.lcms.common.dict.controller" />
+ 	<context:component-scan base-package="com.svw.lcms.common.resources.controller" />
+	
+	<!-- 拦截器配置 -->
+	
+	<mvc:annotation-driven />	
+	<!-- resource -->
+	<mvc:resources location="/WEB-INF/js/" mapping="/js/**"/>
+	
+	<mvc:resources location="/WEB-INF/style/image/" mapping="/image/**"/>
+	<mvc:resources location="/WEB-INF/style/css/" mapping="/css/**"/>
+	<mvc:resources location="/WEB-INF/style/zTree/" mapping="/zTree/**"/>
+	
+	<mvc:resources location="/WEB-INF/js/selectyze/" mapping="/selectyze/**"/>
+	<mvc:resources location="/WEB-INF/js/other/" mapping="/other/**"/>
+	<!-- 视图解析器 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/pages/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="maxUploadSize" value="10485760000" />
+		<property name="maxInMemorySize" value="40960" />
+	</bean>
+
+
+	<!-- 显示用消息设定 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<!-- 国际化信息所在的文件名 -->
+		<property name="basenames">
+			<list>
+				<value>classpath:internationalization/messages</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 消息处理工具类 -->
+    <bean class="com.svw.lcms.framework.i18n.CustomMessageSource" lazy-init="false">
+		<constructor-arg ref="messageSource" />
+	</bean>
+
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,219 @@
+ul li{ list-style:none;}
+body,button,input,select,textarea,option,a{
+  font:"微软雅黑",tahoma,arial;
+}
+/*查询列表两列样式*/
+.DivSelectyze {
+	position:relative;
+	border:1px solid #dcdcdc;
+	width:105px;
+}
+.DivSelectyze .selectyzeValue {
+	position:relative;
+	display:block;
+	text-decoration:none;
+	z-index:-999;
+}
+.DivSelectyze ul {list-style:none;}
+.DivSelectyze .UlSelectize {
+	position:absolute;
+	z-index: 33;
+	display:none;
+	left:0px;
+}
+
+.DivSelectyze li a {
+	display:block;
+	text-decoration:none;
+}
+.optgroupTitle {
+	display:block;
+}
+.skype .selectyzeValue {
+	height:20px;
+	width:105px;
+	line-height:20px;
+	text-indent:.5em;
+	background:url(images/select-arrow-on.png) right center no-repeat #fff;
+	color:#525250;
+}
+.skype .UlSelectize {
+	width:105px;
+	border-top:1px solid #dcdcdc;
+	border-bottom:1px solid #dcdcdc;
+}
+.skype li a{
+	height:18px;
+	width:105px;
+	line-height:18px;
+	background:#fff;
+	color:#525250;
+	text-indent:.5em;
+	border-left:1px solid #dcdcdc;
+	border-right:1px solid #dcdcdc;
+}
+.skype li a:hover{
+	color:#525250;
+	background-color:#e7e6e4;
+}
+
+
+.DivSelectyze {
+    border:none;
+}
+.skype .selectyzeValue {
+    height:26px;
+    line-height:26px;
+}
+.skype .UlSelectize {
+
+    position: absolute;
+    z-index: 9999999999999;
+    border-top:1px solid rgb(145,178,211);
+    border-bottom:1px solid rgb(145,178,211);
+}
+.skype li{width:100%;padding:0; height: auto;}
+.skype li a{
+    height:30px;
+    width:105px;
+    text-align: left;
+    line-height:30px;
+    border-left:1px solid rgb(145,178,211);
+    border-right:1px solid rgb(145,178,211);
+}
+
+/*add cqy*/
+.xllba_width{
+  width: 110px;
+}
+  .xllba_width .skype li a{
+    width:110px;
+}
+
+.xllba_width .skype .selectyzeValue {
+  width:110px;
+}
+.xllba_width .skype .UlSelectize {
+  width:110px;
+}
+
+.xllba_width_40{
+  width:70%;
+  max-width: 125px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+  .xllba_width_40 .skype li a{
+    width:70%;
+    max-width: 125px;
+}
+
+.xllba_width_40 .skype .selectyzeValue {
+  width:100%;
+}
+.xllba_width_40 .skype .UlSelectize {
+  width:100%;
+}
+.xllba_width_40 .skype .UlSelectize li a {
+  width:100%;
+}
+.xllba_width_40 .DivSelectyze{
+	width: 100%;
+}
+
+
+
+/*select 特别长时*/
+.xllba_width_80{
+  width:340px;
+}
+.xllba_width_80 .skype li a{
+     width:340px;
+
+}
+.xllba_width_80 .skype .selectyzeValue {
+  width:100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.xllba_width_80 .skype .UlSelectize {
+  width:100%;
+}
+.xllba_width_80 .skype .UlSelectize li a {
+  width:100%;
+}
+.xllba_width_80 .DivSelectyze{
+	width: 100%;
+}
+
+
+/*三列查询列表中的select宽度*/
+.xllba3{
+  width: 111px;
+}
+  .xllba3 .skype li a{
+    width:109px;
+}
+
+.xllba3 .skype .selectyzeValue {
+  width:111px;
+}
+.xllba3 .skype .UlSelectize {
+  width:111px;
+}
+
+/*宽度偏长*/
+.xllba4{
+  width: 150px;
+}
+  .xllba4 .skype li a{
+    width:150px;
+}
+
+.xllba4 .skype .selectyzeValue {
+  width:150px;
+}
+.xllba4 .skype .UlSelectize {
+  width:150px;
+}
+
+/**/
+.xllba5{
+  width: 140px;
+}
+  .xllba5 .skype li a{
+    width:140px;
+}
+
+.xllba5 .skype .selectyzeValue {
+  width:140px;
+}
+.xllba5 .skype .UlSelectize {
+  width:140px;
+}
+/*
+.xllba_c17{
+  width: 80px;
+}
+.xllba_c17 .skype li a{
+    width:80px;
+}
+
+.xllba_c17 .skype .selectyzeValue {
+  width:80px;
+}
+.xllba_c17 .skype .UlSelectize {
+  width:80px;
+}
+*/
+
+
+
+
+
+
+
+
+

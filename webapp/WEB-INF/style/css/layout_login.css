@@ -1,0 +1,22 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Your Name (you@example.org)
+ * @date    2015-08-24 15:22:51
+ * @version $Id$
+ */
+
+
+/*login*/
+.login{min-width:1024px;margin:auto;padding-bottom:40px;}
+.bg_login_top{width:100%;min-width:1024px;height:45%;position:absolute;background:url(image/bg_login.jpg) center no-repeat;background-size:100% 100%;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="image/bg_login.jpg", sizingMethod=scale);}
+.bg_login_bottom{position:absolute;width:100%;min-width:1024px;top:45%;bottom:0;background:url(image/bg_map.png) center no-repeat;}
+.box_login{width:470px;margin:auto;position:relative;}
+.box_logo{text-align:center;}
+.login_panel{width:360px;margin:auto;color:rgb(22,48,64);border:1px solid rgb(207,212,214);font-size:18px;box-shadow:0px 0px 10px 1px rgb(159, 161, 162);padding:50px;background:rgb(242,244,245);behavior:url(css/PIE.htc);position:relative;}
+.login_panel p{border-left:1px solid rgb(220,221,222);border-top:1px solid rgb(220,221,222);margin:10px auto 20px auto;padding:10px 40px 10px 10px;background:rgb(255,255,255);position:relative;}
+.label_user,.label_pwd{display:block;width:40px;height:30px;position:absolute;right:0;top:5px}
+.label_user{background:url(image/icon_login_user.png) center no-repeat;}
+.label_pwd{background:url(image/icon_login_pwd.png) center no-repeat;}
+.box_btn_login{padding-top:25px;}
+.footer{position:absolute;bottom:0;font-size:14px;color:rgb(143,143,143);width:100%;min-width:1024px;text-align:center;height:40px;}
