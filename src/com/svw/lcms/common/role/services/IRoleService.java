@@ -64,7 +64,7 @@ public interface IRoleService extends IEntityService<SysRole> {
      * @param array 数组
      * @return 布尔值
      */
-    public boolean saveOrUpdateRoleAndResources(SysRole model, SysUser user, String[] array);
+    public void saveOrUpdateRoleAndResources(SysRole model, SysUser user, String[] array);
 
     /**
      * 
@@ -76,6 +76,6 @@ public interface IRoleService extends IEntityService<SysRole> {
      * @param user 登录人
      * @return 布尔值
      */
-    public boolean deleteRoleAndResources(String[] array, SysUser user);
+    public void deleteRoleAndResources(String[] array, SysUser user);
 
 }

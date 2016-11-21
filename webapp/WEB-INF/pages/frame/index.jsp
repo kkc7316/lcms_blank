@@ -49,11 +49,11 @@
 	}, 5000)
 </script>
 </head>
-<frameset id="index-frame" rows="75,*,25" frameborder="0" framespacing="0">
+<frameset id="index-frame" rows="75,*,25"  scrolling="auto"  frameborder="0" framespacing="0">
     <frame id="top-frame" src="head.do" scrolling="no">
-    <frameset cols="210px,*" id="ifrSet">
+    <frameset cols="210px,*" id="ifrSet" scrolling="auto">
       <frame src="navigation.do" id="nav">
-      <frame src="content.do" name="content" id="ifr_content">
+      <frame src="content.do" name="content" id="ifr_content" scrolling="auto">
     </frameset>
     <frame src="bottom.do" scrolling="0"></frame>
 </frameset><noframes></noframes>

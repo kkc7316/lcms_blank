@@ -79,7 +79,7 @@
 <%--                            <label><input name="Fruit" type="radio" value="" />菜单1</label>--%>
 						<!-- js默认选中 -->
 						<c:forEach items="${resourceTypeMap}" var = "map">
-							<label><input type="radio" name="resourceType" value="${map.dictKey}" />${map.dictValue}</label>
+							<input type="radio" name="resourceType" value="${map.dictKey}" />${map.dictValue}
 						</c:forEach>
 						
 						</div>

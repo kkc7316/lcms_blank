@@ -356,7 +356,7 @@ public class EntityServiceImpl<T extends BaseModel> extends BaseServiceImpl impl
      */
     @SuppressWarnings("unchecked")
     protected Class<T> getModelClass() {
-        
+        //当前service类的路径
         String servicePath;
         servicePath = this.getClass().getName();
         
@@ -368,7 +368,7 @@ public class EntityServiceImpl<T extends BaseModel> extends BaseServiceImpl impl
         }
         String endString;
         endString = token[token.length-3] + "." + token[token.length-2] + "." + token[token.length-1];
-        
+        //获得domain类的路径
         String domainPath;
         domainPath = StrUtil.removeByEndStr(servicePath, endString) 
                 + "domain" + "." 

@@ -5,7 +5,25 @@
 <base href="<%=basePath%>"></base>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+
+<link rel="icon" href="image/favicon.ico">
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+<link type="text/css" rel="stylesheet" href="css/global.css" />
+<link type="text/css" rel="stylesheet" href="css/layout.css" />
+<link rel="stylesheet" href="selectyze/selectyze.jquery.css" type="text/css" />
+<script language="javascript" type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="selectyze/selectyze.jquery.min.js"></script>
+<script type="text/javascript" src="js/other/laydate-master/laydate.js"></script>
+
+<link rel="stylesheet" href="css/jquery.validity.css" type="text/css"></link>
+<script type="text/javascript" src="js/other/autoMultiple/autoMultiple.js"></script> 
+<script type="text/javascript" src="js/ext-all.js"></script>
+<script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/jquery.blockUI.js"></script>
+<link rel="stylesheet" type="text/css" href="css/resources/ext-theme-classic/ext-theme-classic-all.css" />
+<link rel="stylesheet" type="text/css" href="css/resources/ext-theme-classic/all2.css" />
+
 <script>
 //主动释放 5秒一次
 setInterval(function() {

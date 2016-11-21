@@ -94,7 +94,6 @@ public class UserController extends BaseController<SysUser> {
         Map<String, Object> parameterList;
         parameterList = new HashMap<String, Object>();
         parameterList.put("userRoleName", userRoleName);
-        
         this.initParameters(SysUser.class, request, parameterList);
         
         list = this.userService.findAllUserList(page, parameterList);
@@ -165,7 +164,6 @@ public class UserController extends BaseController<SysUser> {
         selectvalue = request.getParameter("roleIds").toString();
         String[] roleIdArray;
         roleIdArray = selectvalue.split(",");
-        //如果出现异常--ajax异常--被统一捕获处理
         this.userService.updateUserRoles(updateUser, getCurrentUser(request), roleIdArray);
         viewModel.setViewName("common/success");
         

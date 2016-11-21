@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.svw.lcms.common.base.ISysConstants;
 import com.svw.lcms.common.user.domain.SysUser;
 import com.svw.lcms.framework.domain.BaseModel;
 import com.svw.lcms.framework.services.IUtilService;
@@ -38,7 +39,7 @@ import com.svw.lcms.framework.services.IUtilService;
  * Date: 2015-10-19
  * </p>
  */
-public class BaseController<T extends BaseModel> {
+public class BaseController<T extends BaseModel> implements ISysConstants{
 
     /**
      * 服务器内部错误
@@ -173,7 +174,7 @@ public class BaseController<T extends BaseModel> {
         //            logger.error(ioe);
         //        }
         //        return null;
-        return "exception/error-ajax";
+        return "exception/ajaxError";
     }
 
 

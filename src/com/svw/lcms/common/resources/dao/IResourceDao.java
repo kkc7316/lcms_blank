@@ -48,17 +48,6 @@ public interface IResourceDao {
      */
     public List<Map<String, Object>> getAllResourceList();
 
-    /**
-     * 
-     * <p>
-     * Description: 根据属性查找domain 找到，返回true 未找到，返回false
-     * </p>
-     * 
-     * @param propertyName name
-     * @param propertyValue value
-     * @return b
-     */
-    public boolean findByProperty(String propertyName, String propertyValue);
 
     /**
      * 
@@ -71,8 +60,13 @@ public interface IResourceDao {
      */
     public List<Long> getResourceListByParentId(Long parentId);
 
-    //    public List<Long> getRoleResourceListByResourceId(Long resourceId);
-
+    /**
+     * <p>Description: 根据角色ID，查找有权限的资源</p>
+     * @param roleId 角色ID
+     * @return list
+     */
+    public List<SysResource> getResourceListByRoleId(String roleId);
+    
     /**
      * <p>
      * Description: 根据resourceId删除角色-资源关联表记录
@@ -82,7 +76,6 @@ public interface IResourceDao {
      */
     public void deleteRoleResourceListByResourceId(Long resourceId);
 
-    //    public List<Long> getRoleResourceListByRoleId(Long roleId);
     /**
      * <p>
      * Description: 根据roleId删除角色-资源关联表记录

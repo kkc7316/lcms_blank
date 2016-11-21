@@ -38,7 +38,7 @@ import com.svw.lcms.framework.web.page.PageInfo;
  * </p>
  */
 @Service("resourceService")
-public class ResourceServiceImpl extends EntityServiceImpl<SysResource> implements IResourceService {
+public class SysResourceServiceImpl extends EntityServiceImpl<SysResource> implements IResourceService {
 
     /**
      * <p>
@@ -63,21 +63,6 @@ public class ResourceServiceImpl extends EntityServiceImpl<SysResource> implemen
         return this.resourceDao.findAllResourceList(page, parameterList);
     }
 
-
-    /**
-     * 
-     * <p>
-     * Description: 根据属性查找对象书否存在
-     * </p>
-     * 
-     * @param propertyName 属性名
-     * @param propertyValue 属性值
-     * @return 布尔值
-     */
-    @Override
-    public boolean findByProperty(String propertyName, String propertyValue) {
-        return this.resourceDao.findByProperty(propertyName, propertyValue);
-    }
 
     /**
      * <p>
@@ -105,6 +90,18 @@ public class ResourceServiceImpl extends EntityServiceImpl<SysResource> implemen
         return this.resourceDao.getResourceListByParentId(parentId);
     }
 
+    /**
+     * 
+     * <p>
+     * Description: 获取角色对应资源tree
+     * </p>
+     * 
+     * @param roleId 角色主键id
+     * @return 结果集
+     */
+    public List<SysResource> getResourceListByRoleId(String roleId) {
+        return this.resourceDao.getResourceListByRoleId(roleId);
+    }
     /**
      * 
      * <p>
@@ -169,28 +166,24 @@ public class ResourceServiceImpl extends EntityServiceImpl<SysResource> implemen
      */
     @Override
     public String validateUnique(SysResource model) {
-        //返回页面提示信息
-        String msg;
-        msg = "";
-
-        //假定是不重复的
-        boolean b;
-        b = false;
 
         Long id;
         id = model.getId();
+        
+        List<SysResource> list;
         //新增验证
         if (null == id || "".equals(String.valueOf(id))) {
 
             //验证资源名称
-            b = this.resourceDao.findByProperty("resourceName", model.getResourceName());
-            if (b) {
-                msg += "该资源名称已经存在";
+            list = this.findListByProperty("resourceName", model.getResourceName());
+            if (list != null && !list.isEmpty()) {
+                return "该资源名称已经存在";
             }
+            
             //验证资源code
-            b = this.resourceDao.findByProperty("resourceCode", model.getResourceCode());
-            if (b) {
-                msg += "该资源code已经存在";
+            list = this.findListByProperty("resourceCode", model.getResourceName());
+            if (list != null && !list.isEmpty()) {
+                return  "该资源编号已经存在";
             }
 
         } else {
@@ -198,22 +191,22 @@ public class ResourceServiceImpl extends EntityServiceImpl<SysResource> implemen
             oldResource = this.getById(id);
             if (!model.getResourceName().equals(oldResource.getResourceName())) {
                 //验证资源名
-                b = this.resourceDao.findByProperty("resourceName", model.getResourceName());
-                if (b) {
-                    msg += "[该资源名称已经存在]";
+                list = this.findListByProperty("resourceName", model.getResourceName());
+                if (list != null && !list.isEmpty()) {
+                    return "该资源名称已经存在";
                 }
             }
             if (!model.getResourceCode().equals(oldResource.getResourceCode())) {
                 //验证代码
-                b = this.resourceDao.findByProperty("resourceCode", model.getResourceCode());
-                if (b) {
-                    msg += "[该资源code已经存在]";
+                list = this.findListByProperty("resourceCode", model.getResourceName());
+                if (list != null && !list.isEmpty()) {
+                    return  "该资源编号已经存在";
                 }
             }
 
         }
+        return "";
 
-        return msg;
     }
 
     /**
@@ -313,6 +306,7 @@ public class ResourceServiceImpl extends EntityServiceImpl<SysResource> implemen
         }
 
     }
+
 
 
 

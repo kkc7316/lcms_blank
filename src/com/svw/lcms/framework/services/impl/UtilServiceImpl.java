@@ -53,7 +53,7 @@ public class UtilServiceImpl implements IUtilService {
      */
     @Override
     public List<Object> findColumnListByColumn(String wantedColumn, String tableName, String byColumn, Object byValue) {
-        return this.findColumnListByColumn(wantedColumn, tableName, byColumn, byValue);
+        return this.utilDao.findColumnListByColumn(wantedColumn, tableName, byColumn, byValue);
     }
 
 }

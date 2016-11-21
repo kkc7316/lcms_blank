@@ -160,9 +160,7 @@ public class SysRoleServiceImpl extends EntityServiceImpl<SysRole> implements IR
      * @return 布尔值
      */
     @Override
-    public boolean saveOrUpdateRoleAndResources(SysRole model, SysUser user, String[] array) {
-        boolean flagResult;
-        flagResult = false;
+    public void saveOrUpdateRoleAndResources(SysRole model, SysUser user, String[] array) {
         SysRole sysRole;
         //新增
         if (model.getId() == null || "".equals(String.valueOf(model.getId()))) {
@@ -194,7 +192,6 @@ public class SysRoleServiceImpl extends EntityServiceImpl<SysRole> implements IR
             }
         }
         model.setSysResources(sysResouceList);
-        return flagResult;
     }
 
     /**
@@ -208,19 +205,17 @@ public class SysRoleServiceImpl extends EntityServiceImpl<SysRole> implements IR
      * @return 布尔值
      */
     @Override
-    public boolean deleteRoleAndResources(String[] array, SysUser user) {
-        boolean flag;
-        flag = true;
+    public void deleteRoleAndResources(String[] array, SysUser user) {
         //批量删除
         if (array != null && array.length > 0) {
             for (int i = 0; i < array.length; i++) {
+                System.out.println("delete..." + array[i].trim());
                 SysRole sysRole;
                 sysRole = this.deleteByDelFlag(Long.parseLong(array[i].trim()), user);
                 //删除角色-资源关联表
                 sysRole.setSysResources(new ArrayList<SysResource>());
             }
         }
-        return flag;
     }
 
 

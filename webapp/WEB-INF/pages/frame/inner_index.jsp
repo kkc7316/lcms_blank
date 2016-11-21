@@ -24,9 +24,8 @@
     <div class="welcome">
         <img src="image/welcome1_bg.png">
     </div>
-        <div class="biaoti_title"><span>Hello World!</span></div>
+        <div class="biaoti_title"><span>SpringMVC+Spring+Hibernate脚手架</span></div>
         <div class="inner_content">
-        	
             <div style="clear: both;"></div>
         </div>
 </div>

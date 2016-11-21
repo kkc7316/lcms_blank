@@ -41,19 +41,6 @@ public interface IResourceService extends IEntityService<SysResource>{
      */
     public List<SysResource> findAllResourceList(PageInfo page, Map<String, Object> parameterList);
 
-
-    /**
-     * 
-     * <p>
-     * Description: 根据属性查找对象书否存在
-     * </p>
-     * 
-     * @param propertyName 属性名
-     * @param propertyValue 属性值
-     * @return 布尔值
-     */
-    public boolean findByProperty(String propertyName, String propertyValue);
-
     /**
      * <p>
      * Description: 所有资源列表
@@ -73,7 +60,17 @@ public interface IResourceService extends IEntityService<SysResource>{
      * @return list
      */
     public List<Long> getResourceListByParentId(Long parentId);
-
+    
+    /**
+     * 
+     * <p>
+     * Description: 获取角色对应资源tree
+     * </p>
+     * 
+     * @param roleId 角色主键id
+     * @return 结果集
+     */
+    public List<SysResource> getResourceListByRoleId(String roleId);
     /**
      * 
      * <p>
@@ -109,5 +106,7 @@ public interface IResourceService extends IEntityService<SysResource>{
      * @return boolean
      */
     public void saveOrUpdate(SysResource model, String parentId, SysUser user);
+
+   
 
 }

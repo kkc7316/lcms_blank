@@ -31,7 +31,7 @@ public class BaseServiceImpl implements IBaseService {
      */
     @Autowired
     @Qualifier("utilService")
-    private IUtilService utilService;
+    protected IUtilService utilService;
     
     /////////////////////////////////////////
     

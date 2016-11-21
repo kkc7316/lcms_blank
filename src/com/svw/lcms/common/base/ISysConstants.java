@@ -7,6 +7,12 @@ package com.svw.lcms.common.base;
  * <p>Date: 2016年11月14日</p>
  */
 public interface ISysConstants {
+    
+    
+    /**
+     * 逗号
+     */
+    public static final String COMMA = ",";
 
     /** 已删除 **/
     public static final String IS_DEL = "1";

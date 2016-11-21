@@ -177,8 +177,8 @@ function submitForm(){
 		success:function(data){
 			if(data.success){
 				showMsg("保存成功");
-				$(window.parent.document).find('#add_ifa,#bgDiv').css('display','block');
-		    	$(window.parent.document).find('#relay').attr('src',"<%=path%>/detailDictIdx.do?dictKey="+ parentKey);
+		    	$(window.parent.document).find('#add_ifa,#bgDiv').css('display','block');
+		    	$(window.parent.document).find('#dictIdx_kcpd').attr('src',"<%=path%>/detailDictIdx.do?dictKey="+ parentKey);
 			}else{
 				showMsg2("保存失败");
 			}
