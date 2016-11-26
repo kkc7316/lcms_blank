@@ -40,7 +40,7 @@ public class PageUtil {
         //起始记录 第几条开始
         String sv;
         sv = request.getParameter("start");
-        //每页记录书 pagesize
+        //每页记录数 pagesize
         String lv;
         lv = request.getParameter("limit");
         int start = 0;
@@ -65,10 +65,15 @@ public class PageUtil {
         //end count
         pageInfo.end = start + limit;
         
+        //当前记录
         request.setAttribute("start", start);
+        //结束记录
         request.setAttribute("end", pageInfo.end);
-        pageInfo.limit = limit;
-        pageInfo.count = 0;
+        pageInfo.limit = limit;// 每页记录数
+        pageInfo.count = 0; //总记录数
+        
+        //总页数(afterPageText)--ExtJs自己计算
+        
         return pageInfo;
     }
 }

@@ -53,6 +53,15 @@ public class UserController extends BaseController<SysUser> {
     @Qualifier("userService")
     private IUserService userService;
 
+    
+    /**
+     * 重写domainName
+     */
+    @Override
+    protected String getDomainName() {
+        return "SysUser";
+    }
+
     /**
      * 
      * <p>
@@ -274,6 +283,5 @@ public class UserController extends BaseController<SysUser> {
         map.put("success", flag);
         return map;
     }
-
 
 }

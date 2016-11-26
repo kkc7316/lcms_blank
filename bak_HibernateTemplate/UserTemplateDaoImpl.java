@@ -1,8 +1,8 @@
 /**
- * UserDaoImpl.java
- * Created at 2015-10-16
- * Created by Administrator
- * Copyright (C) 2015 SHANGHAI VOLKSWAGEN, All rights reserved.
+ * UserTemplateDaoImpl.java
+ * Created at 2016-11-26
+ * Created by mazan
+ * Copyright (C) 2016 SHANGHAI VOLKSWAGEN, All rights reserved.
  */
 package com.svw.lcms.common.user.dao.impl;
 
@@ -20,27 +20,19 @@ import com.svw.lcms.common.base.ISysConstants;
 import com.svw.lcms.common.user.dao.IUserDao;
 import com.svw.lcms.common.user.domain.SysUser;
 import com.svw.lcms.common.user.util.UserDaoHelper;
-import com.svw.lcms.framework.dao.impl.BaseDaoImpl;
+import com.svw.lcms.framework.dao.impl.BaseTemplateDaoImpl;
 import com.svw.lcms.framework.web.page.PageInfo;
 
 /**
- * <p>
- * ClassName: UserDaoImpl
- * </p>
- * <p>
- * Description: 用户管理dao
- * </p>
- * <p>
- * Author: pagnfeng
- * </p>
- * <p>
- * Date: 2015-10-16
- * </p>
+ * <p>ClassName: UserTemplateDaoImpl</p>
+ * <p>Description: 使用HibernateTemplateDao</p>
+ * 与UserDaoImpl基本上一模一样，除了继承的接口外
+ * <p>Author: mazan</p>
+ * <p>Date: 2016-11-26</p>
  */
-@Repository("userDao")
-public class UserDaoImpl extends BaseDaoImpl<SysUser> implements IUserDao , ISysConstants {
+@Repository("userTemplateDao")
+public class UserTemplateDaoImpl extends BaseTemplateDaoImpl<SysUser> implements IUserDao , ISysConstants {
 
-    
     /**
      * setParamter方法--全部模糊查询
      */
@@ -48,28 +40,8 @@ public class UserDaoImpl extends BaseDaoImpl<SysUser> implements IUserDao , ISys
     protected boolean isAllLikeQuery() {
         return true;
     }
-//    /**
-//     * 
-//     * <p>Description: 用户列表--模糊查询</p>
-//     * @return Stri ngArray
-//     */
-//    @Override
-//    protected String[] getLikeQueryArray() {
-//        return new String[]{"employeeNum","employeeName","svwCode","userRoleName"};
-//    }
-
-    /**
-     * 
-     * <p>
-     * Description: 用户列表查询
-     * </p>
-     * 
-     * @param pageInfo 分页
-     * @param model 对象
-     * @param userRoleName 用户角色名
-     * @return 结果
-     * @throws DaoException 异常
-     */
+    
+    
     @Override
     public List<SysUser> findAllUserList(PageInfo pageInfo, Map<String, Object> params) {
         StringBuilder buider;
@@ -101,20 +73,6 @@ public class UserDaoImpl extends BaseDaoImpl<SysUser> implements IUserDao , ISys
         return this.findEntityPageListByHql(countHql, queryHql, params, pageInfo);
     }
 
-
-
-
-
-    /**
-     * 
-     * <p>
-     * Description: 根据主键id查询用户对象所具有的角色
-     * </p>
-     * 
-     * @param id 主键id
-     * @param conditionValue 查询条件
-     * @return 角色集
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List<Object> findAllAllocateUserList(Long id, String conditionValue) {
@@ -139,16 +97,6 @@ public class UserDaoImpl extends BaseDaoImpl<SysUser> implements IUserDao , ISys
         return query.list();
     }
 
-    /**
-     * 
-     * <p>
-     * Description: 根据主键id查询用户对象未分配的角色
-     * </p>
-     * 
-     * @param id 主键id
-     * @param conditionValue 查询条件
-     * @return 角色集
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List<Object> findAllUnAllocateUserList(Long id, String conditionValue) {
@@ -174,20 +122,6 @@ public class UserDaoImpl extends BaseDaoImpl<SysUser> implements IUserDao , ISys
         return query.list();
     }
 
-
-
-
-
-
-    /**
-     * <p>
-     * Description: 查找用户是否有XXX权限
-     * </p>
-     * 
-     * @param user 用户
-     * @param permissName 权限名
-     * @return boolean
-     */
     @Override
     public boolean hasPermission(SysUser user, String permissName) {
 
@@ -206,6 +140,5 @@ public class UserDaoImpl extends BaseDaoImpl<SysUser> implements IUserDao , ISys
 
         return true;
     }
-
 
 }

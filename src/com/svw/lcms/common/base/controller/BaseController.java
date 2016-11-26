@@ -6,7 +6,6 @@
  */
 package com.svw.lcms.common.base.controller;
 
-import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
@@ -14,16 +13,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.svw.lcms.common.base.ISysConstants;
+import com.svw.lcms.common.base.ILcmsConstants;
 import com.svw.lcms.common.user.domain.SysUser;
 import com.svw.lcms.framework.domain.BaseModel;
-import com.svw.lcms.framework.services.IUtilService;
+import com.svw.lcms.framework.utils.StrUtil;
+import com.svw.lcms.framework.web.exception.BusinessException;
 
 /**
  * <p>
@@ -39,12 +36,8 @@ import com.svw.lcms.framework.services.IUtilService;
  * Date: 2015-10-19
  * </p>
  */
-public class BaseController<T extends BaseModel> implements ISysConstants{
+public class BaseController<T extends BaseModel> extends com.svw.lcms.framework.controller.BaseController<T> implements ILcmsConstants {
 
-    /**
-     * 服务器内部错误
-     */
-    public static final Integer STATE_INNER_SERVER_ERROR = 500;
 
     /**
      * LOCAL_HOST2
@@ -57,55 +50,73 @@ public class BaseController<T extends BaseModel> implements ISysConstants{
     public static final String LOCAL_HOST = "127.0.0.1:8080";
 
     /** 日志 **/
-    protected static Logger logger = Logger.getLogger(BaseController.class);
-
-    /**
-     * utilService
-     */
-    @Autowired
-    @Qualifier("utilService")
-    protected IUtilService utilService;
-    
-    
+    protected static final Logger LOGGER = Logger.getLogger(BaseController.class);
     
     /**
      * 
-     * <p>
-     * Description: 页面参数赋值
-     * </p>
-     * 
-     * @param domain domain
-     * @param request 请求对象
-     * @param parameterList 参数对象
-     * @return 赋值对象
-     * @throws Exception Exception
+     * <p>Description: 扩展父类的initParameters</p>
+     * @param request   请求
+     * @param parameterList 查询条件列表
+     * @return  Obj
+     * @throws Exception 异常
      */
-    protected Object initParameters(Class<T> domain, HttpServletRequest request, Map<String, Object> parameterList)
-        throws Exception {
-        Object objDomain;
-        objDomain = domain.newInstance();
-        Method[] mts;
-        mts = domain.getMethods();
-        String temp;
-        Object obj;
-        for (Method method : mts) {
-            temp = method.getName();
-            if (temp.startsWith("set")) {
-                temp = temp.substring(temp.indexOf("set") + "set".length(), temp.length());
-                if (StringUtils.isNotBlank(temp)) {
-                    //                    Character.toUpperCase(fieldString.charAt(0)) + fieldString.substring(1);
-                    temp = Character.toLowerCase(temp.charAt(0)) + temp.substring(1, temp.length());
-                    obj = request.getParameter("filter." + temp);
-                    if (obj != null && StringUtils.isNotBlank(obj.toString())) {
-                        parameterList.put(temp, obj.toString().trim());
-                        method.invoke(objDomain, new Object[] { obj });
-                    }
-                }
-            }
-        }
-        return objDomain;
+    protected Object initParameters(HttpServletRequest request, Map<String, Object> parameterList)
+            throws Exception {
+        //通过反射获得domain类
+        return super.initParameters(getModelClass(), request, parameterList);
     }
+    
 
+    /**
+     * 
+     * <p>Description: 根据controller名称，获得ModelClass对象</p>
+     * @return class
+     */
+    @SuppressWarnings("unchecked")
+    protected Class<T> getModelClass() {
+        //当前controller类的路径
+        String controller;
+        controller = this.getClass().getName();
+        
+        String[] token;
+        token = controller.split("\\.");
+        
+        if (token.length <4) {
+            throw new BusinessException("illegal serviceImpl class package:" + controller);
+        }
+        String endString;
+        endString = token[token.length-2] + "." + token[token.length-1];
+        //获得domain类的路径
+        String domainPath;
+        domainPath = StrUtil.removeByEndStr(controller, endString) 
+                + "domain" + "." 
+                + this.getDomainName();
+        
+        Class<T> modelClass = null;
+        try {
+            modelClass = (Class<T>) Class.forName(domainPath);
+        } catch (ClassNotFoundException e) {
+            throw new BusinessException("Class[" + domainPath + "] not found!");
+        }
+        return modelClass;
+    }
+    /**
+     * 获得domain name，如果Service的实现类的命名是Domain+ServiceImpl的方式，子类就不用重写该方法
+     * 或者Service本身就是实现类，并未实现接口，子类也不用重写该方法
+     * 
+     * @return domain name
+     */
+    protected String getDomainName() {
+        String suffix1 = "Controller";
+        String className = this.getClass().getSimpleName();
+        if (className.endsWith(suffix1)) {
+            return className.substring(0, className.length() - suffix1.length());
+        } else {
+            LOGGER.error("Controller class name's format must be \"DomainName\" + \"Controller\", "
+                        + "or you can overwrite the method getDomainName in your ServiceImpl!");
+        }
+        return null;
+    }
     /**
      * 
      * <p>
@@ -120,7 +131,7 @@ public class BaseController<T extends BaseModel> implements ISysConstants{
     @ExceptionHandler
     public String exp(HttpServletRequest request, HttpServletResponse response, Exception ex) {
 
-        logger.error(ex, ex);
+        LOGGER.error(ex, ex);
 
         request.setAttribute("ex", ex);
         
@@ -194,7 +205,7 @@ public class BaseController<T extends BaseModel> implements ISysConstants{
         try {
             ip = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
-            logger.error("", e);
+            LOGGER.error("", e);
         }
         return ip;
 
@@ -228,9 +239,8 @@ public class BaseController<T extends BaseModel> implements ISysConstants{
      */
     protected SysUser getCurrentUser(HttpServletRequest request) {
         Object obj;
-        obj = request.getSession().getAttribute("currentUser");
+        obj = request.getSession().getAttribute(CURRENT_USER);
         return obj != null ? (SysUser) obj : null;
     }
-
 
 }

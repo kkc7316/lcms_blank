@@ -39,7 +39,7 @@ import com.svw.lcms.framework.web.page.PageInfo;
  * </p>
  */
 @Repository("resourceDao")
-public class ResourceDaoImpl extends BaseDaoImpl<SysResource, Serializable> implements IResourceDao {
+public class ResourceDaoImpl extends BaseDaoImpl<SysResource> implements IResourceDao {
 
 
 

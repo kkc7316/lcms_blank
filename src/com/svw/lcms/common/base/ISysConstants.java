@@ -8,12 +8,35 @@ package com.svw.lcms.common.base;
  */
 public interface ISysConstants {
     
+    /**
+     * 服务器内部错误
+     */
+    public static final Integer STATE_INNER_SERVER_ERROR = 500;
     
+    
+    //------------------------------------------//
+    /**
+     * 当前用户-session的key
+     */
+    public static final String CURRENT_USER = "currentUser";
+    
+    /**
+     * 当前用户权限-session的key
+     */
+    public static final String CURRENT_PERMISSION = "currentPermission";
+    
+    //-----------------------------------------//
     /**
      * 逗号
      */
     public static final String COMMA = ",";
 
+    /**
+     * likes 查询使用 %
+     */
+    public static final String LIKES = "%";
+    
+    //------------------------------------------//
     /** 已删除 **/
     public static final String IS_DEL = "1";
 

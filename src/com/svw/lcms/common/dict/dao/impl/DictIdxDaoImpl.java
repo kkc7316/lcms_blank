@@ -35,7 +35,7 @@ import com.svw.lcms.framework.web.page.PageInfo;
  * </p>
  */
 @Repository("dictIdxDao")
-public class DictIdxDaoImpl extends BaseDaoImpl<SysDictIdx, Serializable> implements IDictIdxDao {
+public class DictIdxDaoImpl extends BaseDaoImpl<SysDictIdx> implements IDictIdxDao {
 
 
     /**

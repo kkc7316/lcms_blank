@@ -13,9 +13,9 @@ import com.svw.lcms.common.user.domain.SysUser;
 import com.svw.lcms.framework.dao.IBaseDao;
 import com.svw.lcms.framework.domain.BaseModel;
 import com.svw.lcms.framework.services.impl.BaseServiceImpl;
+import com.svw.lcms.framework.utils.StrUtil;
 import com.svw.lcms.framework.web.exception.BusinessException;
 import com.svw.lcms.framework.web.page.PageInfo;
-import com.svw.lcms.utils.StrUtil;
 
 /**
  * <p>ClassName: EntityServiceImpl</p>

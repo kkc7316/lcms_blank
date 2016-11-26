@@ -23,6 +23,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.svw.lcms.common.base.ISysConstants;
 import com.svw.lcms.common.resources.domain.SysResource;
 import com.svw.lcms.common.role.domain.SysRole;
 import com.svw.lcms.common.user.domain.SysUser;
@@ -42,7 +43,7 @@ import com.svw.lcms.common.user.domain.SysUser;
  * Date: 2015-9-23
  * </p>
  */
-public class Realm extends AuthorizingRealm {
+public class Realm extends AuthorizingRealm implements ISysConstants {
 
     /**
      * shiroService
@@ -61,12 +62,12 @@ public class Realm extends AuthorizingRealm {
         Session session;
         session = SecurityUtils.getSubject().getSession();
         Object obj;
-        obj = session.getAttribute("currentPermission");
+        obj = session.getAttribute(CURRENT_PERMISSION);
         SimpleAuthorizationInfo info;
         info = null;
         if (obj == null) {
             SysUser user = null;
-            obj = session.getAttribute("currentUser");
+            obj = session.getAttribute(CURRENT_USER);
             user = (SysUser) obj;
             if (user != null) {
                 info = new SimpleAuthorizationInfo();
@@ -80,7 +81,7 @@ public class Realm extends AuthorizingRealm {
                         info.addStringPermission(res.getResourceCode());
                     }
                 }
-                this.setSession("currentPermission", info);
+                this.setSession(CURRENT_PERMISSION, info);
             }
         } else {
             info = (SimpleAuthorizationInfo) obj;

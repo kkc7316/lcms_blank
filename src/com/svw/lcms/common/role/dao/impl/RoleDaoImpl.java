@@ -16,8 +16,8 @@ import org.springframework.stereotype.Repository;
 import com.svw.lcms.common.role.dao.IRoleDao;
 import com.svw.lcms.common.role.domain.SysRole;
 import com.svw.lcms.framework.dao.impl.BaseDaoImpl;
+import com.svw.lcms.framework.utils.DaoHelper;
 import com.svw.lcms.framework.web.page.PageInfo;
-import com.svw.lcms.utils.DaoHelper;
 
 /**
  * <p>
@@ -34,7 +34,7 @@ import com.svw.lcms.utils.DaoHelper;
  * </p>
  */
 @Repository("roleDao")
-public class RoleDaoImpl extends BaseDaoImpl<SysRole, Serializable> implements IRoleDao {
+public class RoleDaoImpl extends BaseDaoImpl<SysRole> implements IRoleDao {
 
 
     /**

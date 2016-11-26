@@ -32,7 +32,6 @@ import com.svw.lcms.common.resources.domain.SysResource;
 import com.svw.lcms.common.resources.services.IResourceService;
 import com.svw.lcms.framework.web.page.PageInfo;
 import com.svw.lcms.framework.web.page.PageUtil;
-import com.svw.lcms.utils.StrUtil;
 
 /**
  * <p>

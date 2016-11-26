@@ -1,4 +1,4 @@
-package com.svw.lcms.utils;
+package com.svw.lcms.framework.utils;
 
 public class StrUtil {
 

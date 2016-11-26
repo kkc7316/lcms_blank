@@ -6,16 +6,12 @@
  */
 package com.svw.lcms.common.dict.services.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.svw.lcms.common.base.services.impl.EntityServiceImpl;
@@ -25,7 +21,6 @@ import com.svw.lcms.common.dict.services.IDictService;
 import com.svw.lcms.common.user.domain.SysUser;
 import com.svw.lcms.framework.web.exception.BusinessException;
 import com.svw.lcms.framework.web.page.PageInfo;
-import com.svw.lcms.utils.StrUtil;
 
 /**
  * <p>

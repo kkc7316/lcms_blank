@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.svw.lcms.common.dict.domain.SysDictIdx;
-import com.svw.lcms.common.user.domain.SysUser;
 import com.svw.lcms.framework.web.page.PageInfo;
 
 /**

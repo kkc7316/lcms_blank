@@ -4,7 +4,7 @@
  * Created by mazan
  * Copyright (C) 2016 SHANGHAI VOLKSWAGEN, All rights reserved.
  */
-package com.svw.lcms.utils;
+package com.svw.lcms.framework.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

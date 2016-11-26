@@ -98,7 +98,7 @@ public class SysDictIdxServiceImpl extends EntityServiceImpl<SysDictIdx> impleme
     /**
      * 
      * <p>
-     * Description: 删除字典及子字典
+     * Description: 删除字典及子字典,真删除
      * </p>
      * 
      * @param ids 主键
@@ -108,7 +108,9 @@ public class SysDictIdxServiceImpl extends EntityServiceImpl<SysDictIdx> impleme
     public void deleteDictIdx(String ids) {
         String[] idz;
         idz = ids.split(",");
-        //TODO
+        for (String id : idz) {
+            this.deleteById(Long.valueOf(id));
+        }
     }
 
 

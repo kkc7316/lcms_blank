@@ -4,7 +4,7 @@
  * Created by pangfeng
  * Copyright (C) 2015 SHANGHAI VOLKSWAGEN, All rights reserved.
  */
-package com.svw.lcms.utils;
+package com.svw.lcms.framework.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;

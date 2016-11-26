@@ -1,13 +1,12 @@
 /**
- * BaseDaoImpl.java
- * Created at 2015-09-23
- * Created by pangfeng
- * Copyright (C) 2015 SHANGHAI VOLKSWAGEN, All rights reserved.
+ * BaseTemplateDao.java
+ * Created at 2016-11-25
+ * Created by mazan
+ * Copyright (C) 2016 SHANGHAI VOLKSWAGEN, All rights reserved.
  */
 package com.svw.lcms.framework.dao.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -17,52 +16,28 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.transform.Transformers;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.svw.lcms.common.base.ISysConstants;
 import com.svw.lcms.framework.dao.IBaseDao;
-import com.svw.lcms.framework.dao.SessionSupport;
+import com.svw.lcms.framework.utils.HqlPageSupport;
+import com.svw.lcms.framework.utils.SqlPageSupport;
 import com.svw.lcms.framework.web.page.PageInfo;
 
 /**
- * 
- * <p>
- * ClassName: BaseDaoImpl
- * </p>
- * <p>
- * Description: 数据访问的简单实现
- * </p>
- * <p>
- * Author: pangfeng
- * </p>
- * <p>
- * Date: 2015-9-23
- * </p>
+ * <p>ClassName: BaseTemplateDao</p>
+ * <p>Description: 使用Spring 提供的HibernateTemplate</p>
+ * <p>Author: mazan</p>
+ * <p>Date: 2016-11-25</p>
  */
-@Repository("baseDao")
-public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>, ISysConstants {
+@Repository("baseTemplateDao")
+public class BaseTemplateDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T, Long>, ISysConstants{
 
-    
-    
     /** 日志 **/
-    protected Logger logger = Logger.getLogger(BaseDaoImpl.class);
+    protected Logger logger = Logger.getLogger(BaseTemplateDaoImpl.class);
      
-    /************** getters and setters ***************/
-   
-
-    /**
-     * <p>
-     * Description: 是否使用缓存
-     * </p>
-     * 
-     * @return true or false
-     */
-    protected boolean usingCache() {
-        return false;
-    }
-
-    //**************** find ****************//
+    //-------------------------------------------//
     /**
      * <p>
      * Description: 根据对象id属性值加载
@@ -73,12 +48,11 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      * @throws DaoException 异常
      * @return T 对象
      */
-    @SuppressWarnings("unchecked")
     @Override
     public T loadById(Class<T> modelClass, Long id) {
-        return (T) this.getCurrentSession().load(modelClass, id);
+        return this.getHibernateTemplate().load(modelClass, id);
     }
-
+    
     /**
      * 
      * <p>
@@ -89,74 +63,11 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      * @param id 主键
      * @return model对象
      */
-    @SuppressWarnings("unchecked")
     @Override
     public T getById(Class<T> modelClass, Long id) {
-        return (T) this.getCurrentSession().get(modelClass, id);
+        return this.getHibernateTemplate().get(modelClass, id);
     }
 
-
-
-
-    //**************** save ****************//
-    /**
-     * 
-     * <p>
-     * Description: 保存一个model
-     * </p>
-     * 
-     * @param t model对象
-     * @return Serializable
-     */
-    @Override
-    public Serializable save(T t) {
-        return this.getCurrentSession().save(t);
-    }
-
-
-    //**************** saveOrUpdate ****************//
-    /**
-     * 
-     * <p>
-     * Description: 保存或更新一个model
-     * </p>
-     * 
-     * @param t model对象
-     * @throws DaoException 数据访问异常
-     * 
-     */
-    @Override
-    public void saveOrUpdate(T t) {
-        this.getCurrentSession().saveOrUpdate(t);
-    }
-
-    /**
-     * <p>Description: 批量保存/更新</p>
-     * @param entityList
-     */
-    public void saveOrUpdateEntityList(List<T> entityList) {
-        int count = 0;
-        Session session;
-        session = this.sessionFactory.getCurrentSession();
-
-        for (int i = 0; i < entityList.size(); i++) {
-
-            T model;
-            model = entityList.get(i);
-            session.saveOrUpdate(model);
-
-            count++;
-            //清空Session缓存。
-            if (i % BATCH_SUBMIT_NUM == 0) {
-                session.flush();
-                session.clear();
-            }
-        }
-        //扫尾
-        session.flush();
-
-        logger.info("批量保存/更新的entityList数量：" + count);
-    }
     /**
      * 
      * <p>
@@ -175,13 +86,15 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
         queryString = "from " + modelClass.getSimpleName() 
                 + " where 1=1 and delFlag = '0' "
                 + " and " + propertyName + " =:" + propertyName;
+        
         //给查询条件赋值    
         Query query;
         query = this.getCurrentSession().createQuery(queryString);
         query.setParameter(propertyName, propertyValue);
         return (T) query.uniqueResult();
+        
+//        return this.getHibernateTemplate().findByNamedParam(queryString, paramName, value);
     }
-    
     /**
      * 
      * <p>
@@ -204,7 +117,8 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
         Query query;
         query = this.getCurrentSession().createQuery(queryString);
         query.setParameter(propertyName, propertyValue);
-        return query.list();
+        return (List<T>) query.uniqueResult();
+//        return this.getHibernateTemplate().find(queryString, propertyValue);
     }
     /**
      * 
@@ -217,11 +131,8 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
     @SuppressWarnings("unchecked")
     @Override
     public List<T> findAll(Class<T> modelClass) {
-        String queryString;
-        queryString = "from " + modelClass.getName() + " where delFlag = '0'";
-        Query query;
-        query = this.getCurrentSession().createQuery(queryString);
-        return query.list();
+        return this.getHibernateTemplate()
+                .find("from " + modelClass.getName() + " where delFlag = '0'");
     }
 
     /**
@@ -239,31 +150,55 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
     @SuppressWarnings("unchecked")
     @Override
     public List<T> findAll(Class<T> modelClass, PageInfo pageInfo) {
-        String hql;
-        hql = "select count(1) from " + modelClass.getName()
+        String countHql;
+        countHql = "select count(1) from " + modelClass.getName()
             + "where delFlag='0'";
-        Query query;
-        query = this.getCurrentSession().createQuery(hql);
-        Object obj;
-        obj = query.uniqueResult();
-        int count = 0;
-        if (obj != null) {
-            count = Integer.parseInt(obj.toString());
-        }
-        String queryString;
-        queryString = "from " + modelClass.getName()
+        
+        String queryHql;
+        queryHql = "from " + modelClass.getName()
             + "where delFlag='0'";
-        query = this.getCurrentSession().createQuery(queryString);
-        query.setCacheable(usingCache());
-        query.setMaxResults(pageInfo.limit);
-        query.setFirstResult(pageInfo.start);
-        int totalRec;
-        totalRec = count;
-        pageInfo.count = totalRec;
-        return query.list();
+        
+        return this.getHibernateTemplate()
+                .executeFind(new HqlPageSupport(countHql, queryHql, pageInfo));
     }
 
-    //=================== delete ====================//
+    /**
+     * 
+     * <p>
+     * Description: 保存一个model
+     * </p>
+     * 
+     * @param t model对象
+     * @return Serializable
+     */
+    @Override
+    public Serializable save(T t) {
+        return this.getHibernateTemplate().save(t);
+    }
+    /**
+     * 
+     * <p>
+     * Description: 保存或更新一个model
+     * </p>
+     * 
+     * @param t model对象
+     * @throws DaoException 数据访问异常
+     * 
+     */
+    @Override
+    public void saveOrUpdate(T t) {
+        this.getHibernateTemplate().saveOrUpdate(t);
+    }
+
+    /**
+     * <p>Description: 批量保存/更新</p>
+     * @param entityList
+     */
+    @Override
+    public void saveOrUpdateEntityList(List<T> entityList) {
+        this.getHibernateTemplate().saveOrUpdateAll(entityList);
+    }
+
     /**
      * 
      * <p>
@@ -274,8 +209,7 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      */
     @Override
     public void delete(T t) {
-        this.getCurrentSession().delete(t);
-
+        this.getHibernateTemplate().delete(t);
     }
 
     /**
@@ -289,10 +223,9 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      */
     @Override
     public void deleteById(Class<T> modelClass, Long id) {
-        this.getCurrentSession().delete(this.loadById(modelClass, id));
+        this.getHibernateTemplate().delete(this.loadById(modelClass, id));
     }
 
-    //=============== update ==================//
     /**
      * 
      * <p>
@@ -303,9 +236,9 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      */
     @Override
     public void update(T t) {
-        this.getCurrentSession().update(t);
+        this.getHibernateTemplate().update(t);
     }
-    
+
     /**
      * 
      * <p>Description: 更新一个model</p>
@@ -313,11 +246,9 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      */
     @Override
     public void merge(T t) {
-        this.getCurrentSession().merge(t);
+        this.getHibernateTemplate().merge(t);
     }
-    
-    
-  //----------------------------hql-----------------------//
+
     /**
      * 
      * <p>Description: hql翻页</p>
@@ -327,20 +258,15 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      * @param pageInfo  翻页
      * @return list
      */
-    public List<T> findEntityPageListByHql(String countHql, String queryHql, Map<String, Object> params, PageInfo pageInfo) {
-        Long count;
-        if (null != pageInfo) {
-            count = this.getEntityCountByHql(countHql, params);
-            pageInfo.count = count;
-        }
-        
-        List<T> list;
-        list = this.getEntityListByHql(queryHql, params, pageInfo);
-        
-        return list;
-        
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<T> findEntityPageListByHql(String countHql, String queryHql, Map<String, Object> params,
+            PageInfo pageInfo) {
+        return this.getHibernateTemplate()
+                .executeFind(new HqlPageSupport(countHql, queryHql, pageInfo, params, 
+                        this.isAllLikeQuery(), this.getLikeQueryArray()));
     }
- 
+
     /**
      * 
      * <p>Description: hql翻页--总数</p>
@@ -348,24 +274,22 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      * @param countHql  总数hql
      * @param params    查询条件
      * @return list
-     * 从Hibernate 3.0.x/3.1.x升级到最新的3.2版，
-     * 一定要注意，3.2版的很多sql函数如count(), sum()的唯一返回值
-     * 已经从Integer变为Long，
-     * 如果不升级代码，会得到一个ClassCastException。 
      */
+    @Override
     public Long getEntityCountByHql(String countHql, Map<String, Object> params) {
         if (StringUtils.isEmpty(countHql)) {
             return 0l;
         }
         Query query = null;
-        query = this.getHqlQuery(countHql, params);
+        query = this.getCurrentSession().createQuery(countHql);
+        this.setParamsWithMap(query, params);
         
         return (Long) query.uniqueResult();
     }
+
     /**
      * 
      * <p>Description: hql翻页--记录</p>
-     * 导出列表当前记录
      * @param countHql  总数hql
      * @param queryHql  查询hql
      * @param params    查询条件
@@ -373,26 +297,14 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      * @return list
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<T> getEntityListByHql(String queryHql, Map<String, Object> params, PageInfo pageInfo) {
-        if (StringUtils.isEmpty(queryHql)) {
-            return new ArrayList<T>();
-        }
-       
-        Query query = null;
-        query = this.getHqlQuery(queryHql, params);
-        if (null != pageInfo) {
-            query.setFirstResult(pageInfo.start);
-            query.setMaxResults(pageInfo.limit);
-        }
-        
-        return query.list();
+        return this.getHibernateTemplate()
+                .executeFind(new HqlPageSupport(null, queryHql, pageInfo, params,
+                        this.isAllLikeQuery(), this.getLikeQueryArray()));
     }
 
-
-
-
-
-  //----------------------------sql-----------------------//
+    //----------------------------sql-----------------------//
     /**
      * 
      * <p>Description: sql翻页</p>
@@ -402,18 +314,14 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      * @param pageInfo  翻页
      * @return list
      */
-    public List<Map<String, Object>> findEntityPageListBySql(String countSql, String querySql, Map<String, Object> params, PageInfo pageInfo) {
-        Long count;
-        if (null != pageInfo) {
-            count = this.getEntityCountBySql(countSql, params);
-            pageInfo.count = count;
-        }
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Map<String, Object>> findEntityPageListBySql(String countSql, String querySql,
+            Map<String, Object> params, PageInfo pageInfo) {
         
-        List<Map<String, Object>> list;
-        list = this.getEntityListBySql(querySql, params, pageInfo);
-        
-        return list;
-        
+        return this.getHibernateTemplate()
+                .executeFind(new SqlPageSupport(countSql, querySql, pageInfo, params, 
+                        this.isAllLikeQuery(), this.getLikeQueryArray()));
     }
 
     /**
@@ -424,20 +332,21 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      * @param params    查询条件
      * @return list
      */
+    @Override
     public Long getEntityCountBySql(String countSql, Map<String, Object> params) {
         if (StringUtils.isEmpty(countSql)) {
             return 0l;
         }
         Query query = null;
-        query = this.getSqlQuery(countSql, params);
+        query = this.getCurrentSession().createQuery(countSql);
+        this.setParamsWithMap(query, params);
         
         return (Long) query.uniqueResult();
     }
- 
+
     /**
      * 
      * <p>Description: sql翻页--记录</p>
-     * 导出列表当前记录
      * @param countHql  总数hql
      * @param queryHql  查询hql
      * @param params    查询条件
@@ -445,59 +354,24 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
      * @return list
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<Map<String, Object>> getEntityListBySql(String querySql, Map<String, Object> params, PageInfo pageInfo) {
-        if (StringUtils.isEmpty(querySql)) {
-            return new ArrayList<Map<String,Object>>();
-        }
-       
-        Query query = null;
-        query = this.getSqlQuery(querySql, params);
-        query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-        if (null != pageInfo) {
-            query.setFirstResult(pageInfo.start);
-            query.setMaxResults(pageInfo.limit);
-        }
-        
-        return query.list();
+        return this.getHibernateTemplate()
+                .executeFind(new SqlPageSupport(null, querySql, pageInfo, params,
+                        this.isAllLikeQuery(), this.getLikeQueryArray()));
     }
 
-    //------------------------private-----------------------//
+    //-------------------------------//
     /**
      * 
-     * <p>Description: 根据条件拼装query</p>
-     * @param hql hql语句
-     * @param params 条件参数
-     * @return query
+     * <p>Description: 获得当前session</p>
+     * @return currentSession
      */
-    private Query getHqlQuery(String hql, Map<String, Object> params) {
-        if (StringUtils.isEmpty(hql)) {
-            return null;
-        }
-        Query query = null;
-        query = this.getCurrentSession().createQuery(hql);
-        //为Hql参数设值
-        this.setParamsWithMap(query, params);
-        
-        return query;
+    protected Session getCurrentSession() {
+        return this.getHibernateTemplate().getSessionFactory().getCurrentSession();
     }
-    /**
-     * 
-     * <p>Description: 根据条件拼装query</p>
-     * @param hql hql语句
-     * @param params 条件参数
-     * @return query
-     */
-    private Query getSqlQuery(String sql, Map<String, Object> params) {
-        if (StringUtils.isEmpty(sql)) {
-            return null;
-        }
-        Query query = null;
-        query = this.getCurrentSession().createSQLQuery(sql);
-        //为Sql参数设值
-        this.setParamsWithMap(query, params);
-        
-        return query;
-    }
+    
+    
     /**
      * 
      * <p>Description: 设置query参数</p>
@@ -542,16 +416,6 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
             }  
         }
     }
-
-    /**
-     * 
-     * <p>Description: 是否全部模糊查询</p>
-     * @return false 默认精准查询
-     */
-    protected boolean isAllLikeQuery() {
-        return false;
-    }
-    
     
     /**
      * <p>Description: 获得模糊查询list</p>
@@ -568,11 +432,21 @@ public class BaseDaoImpl<T> extends SessionSupport implements IBaseDao<T, Long>,
     }
     /**
      * 
+     * <p>Description: 是否全部模糊查询</p>
+     * @return false 默认精准查询
+     */
+    protected boolean isAllLikeQuery() {
+        return false;
+    }
+    
+    /**
+     * 
      * <p>Description: 模糊查询</p>
      * @return StringArray
      */
     protected String[] getLikeQueryArray() {
         return null;
     }
+    
     
 }

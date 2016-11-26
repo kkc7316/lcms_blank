@@ -1,4 +1,4 @@
-package com.svw.lcms.utils;
+package com.svw.lcms.framework.utils;
 
 import java.util.Map;
 
@@ -31,10 +31,23 @@ public class DaoHelper {
         }
         StringBuilder buider;
         buider = new StringBuilder();
-        for (String key : params.keySet()) {
-            buider.append(" and " + alias + key + "  =:");
-            buider.append(key);
+//        for (String key : params.keySet()) {
+//            buider.append(" and " + alias + key + "  =:");
+//            buider.append(key);
+//        }
+        
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            String key;
+            key = entry.getKey();
+            Object obj = null;
+            obj = entry.getValue();
+            //value不为空
+            if (obj != null && StringUtils.isNotBlank(obj.toString())) {
+                buider.append(" and " + alias + key + "  =:");
+                buider.append(key);
+            }
         }
+        
         
         return buider.toString();
         
@@ -53,11 +66,22 @@ public class DaoHelper {
         }
         StringBuilder buider;
         buider = new StringBuilder();
-        for (String key : params.keySet()) {
-            buider.append(" and " + alias + key + " like :");
-            buider.append(key);
-        }
+//        for (String key : params.keySet()) {
+//            buider.append(" and " + alias + key + " like :");
+//            buider.append(key);
+//        }
         
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            String key;
+            key = entry.getKey();
+            Object obj = null;
+            obj = entry.getValue();
+            //value不为空
+            if (obj != null && StringUtils.isNotBlank(obj.toString())) {
+                buider.append(" and " + alias + key + " like :");
+                buider.append(key);
+            }
+        }
         return buider.toString();
         
     }

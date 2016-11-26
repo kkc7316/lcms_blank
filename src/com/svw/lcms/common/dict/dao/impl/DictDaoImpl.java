@@ -16,9 +16,9 @@ import org.springframework.stereotype.Repository;
 import com.svw.lcms.common.dict.dao.IDictDao;
 import com.svw.lcms.common.dict.domain.SysDict;
 import com.svw.lcms.framework.dao.impl.BaseDaoImpl;
+import com.svw.lcms.framework.utils.DaoHelper;
 import com.svw.lcms.framework.web.exception.BusinessException;
 import com.svw.lcms.framework.web.page.PageInfo;
-import com.svw.lcms.utils.DaoHelper;
 
 /**
  * <p>
@@ -35,7 +35,7 @@ import com.svw.lcms.utils.DaoHelper;
  * </p>
  */
 @Repository("dictDao")
-public class DictDaoImpl extends BaseDaoImpl<SysDict, Serializable> implements IDictDao {
+public class DictDaoImpl extends BaseDaoImpl<SysDict> implements IDictDao {
 
     /**
      * 

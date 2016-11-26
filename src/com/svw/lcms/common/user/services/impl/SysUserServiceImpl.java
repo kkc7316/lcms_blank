@@ -60,6 +60,13 @@ public class SysUserServiceImpl extends EntityServiceImpl<SysUser> implements IU
     @Autowired
     @Qualifier("userDao")
     private IUserDao userDao;
+    
+    /**
+     * 同样的接口，不同的实现
+     */
+    @Autowired
+    @Qualifier("userTemplateDao")
+    private IUserDao userTemplateDao;
 
     /**
      * 
@@ -84,6 +91,7 @@ public class SysUserServiceImpl extends EntityServiceImpl<SysUser> implements IU
                 sysUser.setUpdateStringDate(updatedate.toString().substring(0, NINETEEN));
             }
         }
+        
         return userList;
     }
 
