@@ -1,4 +1,5 @@
 .gitignore
+.settings/
 /build
 *.jar
 *.class
