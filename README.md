@@ -3,6 +3,7 @@ This is a small lcms project demo repo
 
 [lcms_blank>webapp>WEB_INF>lib下载
 ](http://pan.baidu.com/s/1pLnQe4j)
+ 后面有时间再改成maven
  
 lcms_blank v0.1
 基于已经上线的LCMS系统进行精简化处理，加入一些调整，但整体未拆分
